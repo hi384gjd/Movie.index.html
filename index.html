@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dizi hayal - أفلام ومسلسلات</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+    /* ✅ منع ظهور اللون الأزرق عند الضغط */
+    * { 
+        -webkit-tap-highlight-color: transparent; 
+        box-sizing: border-box; /* تحسين التعامل مع الأبعاد */
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Cairo', sans-serif;
+        background-color: #141414; /* خلفية أعمق */
+        color: #fff;
+        direction: rtl; /* التأكيد على اتجاه RTL للعربية */
+    }
+
+    /* ===== الهيدر وشريط البحث ===== */
+    header {
+        background-color: #141414;
+        padding: 0px 0;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 900; /* خط أثقل للعنوان */
+        color: #E50914; /* لون النبرة */
+        border-bottom: 2px solid #282828;
+    }
+
+    .search-bar {
+        position: relative;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: center;
+        background-color: #141414;
+    }
+
+    .search-bar input {
+        width: 100%;
+        max-width: 500px;
+        /* تبديل الأبعاد لـ RTL: إضافة مساحة لليسار للأيقونة */
+        padding: 12px 20px 12px 45px; 
+        border-radius: 25px;
+        border: 1px solid #333;
+        outline: none;
+        font-size: 14px;
+        background-color: #222; /* خلفية البحث */
+        color: #fff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        transition: all 0.3s ease;
+    }
+
+    .search-bar input::placeholder { color: #888; }
+    .search-bar input:focus {
+        background-color: #333;
+        border-color: #E50914;
+    }
+
+    /* تعديل موقع أيقونة البحث لليسار في RTL */
+    .search-bar svg {
+        position: absolute;
+        left: 35px; /* يمين الشاشة */
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        fill: #888;
+        pointer-events: none;
+    }
+
+    /* ===== البانر ===== */
+    .banner {
+        position: relative;
+        width: 100%;
+        height: 220px;
+        overflow: hidden;
+        margin-top: 0;
+        border-radius: 0; /* إزالة الحواف لمنظر الشاشة الكاملة */
+    }
+    .banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        right: 0;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+    }
+    .banner img.active { opacity: 1; }
+    .banner .play-btn {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background-color: #E50914; /* لون Netflix الأحمر */
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 14px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 10;
+        transition: background-color 0.3s;
+    }
+    .banner .play-btn:hover { background-color: #ff1a1a; }
+    .play-btn svg {width:16px;height:16px;fill:#fff;}
+
+    /* تدرج التلاشي من الأسفل للأعلى - أكثر نعومة */
+    .banner::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(20, 20, 20, 1) 0%, rgba(20, 20, 20, 0.5) 30%, rgba(20, 20, 20, 0) 100%);
+        pointer-events: none;
+        z-index: 5;
+    }
+
+    /* ===== الأقسام والكاروسيل ===== */
+    .section {padding:0px 6px;}
+    .section h2 {font-size:20px;margin:4px 0 10px 0;color:#fff;font-weight:600;}
+    .carousel {
+        display:flex;
+        overflow-x:auto;
+        gap:15px; /* زيادة الفراغ بين البطاقات */
+        padding-bottom:15px;
+        scrollbar-width: none; /* إخفاء شريط التمرير لفايرفوكس */
+    }
+    .carousel::-webkit-scrollbar {display:none;} /* إخفاء شريط التمرير لكروم وسفاري */
+
+    .movie-card {
+        min-width: 140px;
+        max-width: 140px;
+        background-color: #141414;
+        border-radius: 8px;
+        overflow: hidden;
+        flex-shrink: 0;
+        text-decoration: none;
+        color: #fff;
+        display: block;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    /* تأثير التمرير الجديد */
+    .movie-card:hover {
+        transform: scale(1.05);
+        z-index: 2; /* لجعل البطاقة الممرر عليها تظهر فوق البقية */
+        box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+    }
+
+    .image-container {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .movie-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+    }
+
+    /* تراكب التقييم على الصورة */
+    .rating-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: #FFD700;
+        font-size: 11px;
+        padding: 4px 8px;
+        border-bottom-left-radius: 8px;
+        border-top-right-radius: 8px;
+        font-weight: bold;
+    }
+
+    .movie-info {
+        padding: 8px 5px 10px;
+        text-align: right; /* محاذاة لليمين */
+    }
+    .movie-info h3 {
+        font-size: 13px;
+        margin: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-weight: 600;
+    }
+    .movie-info .details {
+        font-size: 10px;
+        color: #888;
+        margin: 2px 0 0 0;
+    }
+
+    .more-card {
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-direction:column;
+        background-color:#282828;
+        color:#fff;
+        font-weight:bold;
+        font-size:14px;
+        min-width:140px;
+        max-width:140px;
+        height:200px;
+        border-radius:8px;
+        flex-shrink:0;
+        cursor:pointer;
+        transition: background-color 0.3s;
+    }
+    .more-card:hover { background-color: #333; }
+
+    @media (min-width:600px){
+        .movie-card {min-width:180px; max-width:180px;}
+        .image-container {height:250px;}
+        .banner {height:400px; border-radius: 8px; margin: 0 20px;}
+        .section {padding: 15px 20px;}
+        .search-bar input {max-width: 600px;}
+        .search-bar svg {left: calc(50% - 275px);} /* ضبط موقع الأيقونة عند التوسيط */
+    }
+</style>
+</head>
+
+<body>
+
+<header>Dizi Hayal</header>
+
+<div class="search-bar">
+    <input type="text" id="search-input" placeholder="ابحث عن فيلم أو مسلسل...">
+    <svg viewBox="0 0 24 24">
+        <path d="M21 21l-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
+          stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+</div>
+
+<div class="banner" id="main-banner"></div>
+
+<div class="section" id="latest-movies">
+    <h2>مسلسلات</h2>
+    <div class="carousel" id="movies-carousel"></div>
+</div>
+
+<div class="section" id="popular-series">
+    <h2>أفلام ننصح بها</h2>
+    <div class="carousel" id="series-carousel"></div>
+</div>
+
+<script>
+// ======== بيانات ========
+const BANNERS_DATA = [
+{ 
+  img: 'https://k.top4top.io/p_36034y8ob0.jpg', 
+  title: 'حلم اشرف', 
+  link: 'https://visiflowlenf.com/1996619152319725569' 
+},
+{img: 'https://j.top4top.io/p_3625v3lt60.png',
+    title: 'the fault in our stars',
+    link: 'https://visiflowlenf.com/1996619152319725569'
+},
+];
+
+let MOVIES_DATA = [
+      {
+      title: 'حلم اشرف',
+      details: '🇹🇷 تركي • 2025 • دراما',
+      rating: '8.2',
+      img: 'https://h.top4top.io/p_3603ecq2w0.jpg',
+      link: 'https://visiflowlenf.com/1996619152319725569'
+    },
+    // يمكن إضافة المزيد هنا
+];
+
+let SERIES_DATA = [
+{
+  title: 'The Fault in Our Stars',
+  details: '🇺🇸 أجنبي • 2014 • رومانسي •',
+  rating: '7.7',
+  img: 'https://k.top4top.io/p_3625bcx210.jpg', 
+  link: 'https://visiflowlenf.com/1996620294453882882'
+},
+    // يمكن إضافة المزيد هنا
+];
+
+
+// ======== وظائف البانر ========
+const bannerContainer = document.getElementById('main-banner');
+BANNERS_DATA.forEach((b, index) => {
+    const img = document.createElement('img');
+    img.src = b.img;
+    img.alt = b.title;
+    if(index === 0) img.classList.add('active');
+    bannerContainer.appendChild(img);
+
+    const btn = document.createElement('a');
+    btn.href = b.link;
+    btn.className = 'play-btn';
+    btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> شاهد الآن`;
+    if(index !== 0) btn.style.display = 'none';
+    bannerContainer.appendChild(btn);
+});
+
+const banners = bannerContainer.querySelectorAll('img');
+const playBtns = bannerContainer.querySelectorAll('.play-btn');
+let currentBanner = 0;
+
+function showBanner(index){
+    banners.forEach((img, i) => {
+        img.classList.remove('active');
+        playBtns[i].style.display = 'none';
+        if(i === index){
+            img.classList.add('active');
+            playBtns[i].style.display = 'flex';
+        }
+    });
+}
+
+setInterval(() => {
+    currentBanner = (currentBanner + 1) % banners.length;
+    showBanner(currentBanner);
+}, 5000); // تغيير كل 6 ثواني
+
+
+// ======== وظائف البطاقة والكاروسيل ========
+function createCard(item){
+    const a = document.createElement('a');
+    a.className = 'movie-card';
+    a.href = item.link ? item.link : "#";
+    // 💡 استخدام الأسلوب الجديد للبطاقة
+    a.innerHTML = `
+        <div class="image-container">
+            <img src="${item.img}" alt="${item.title}">
+            <div class="rating-overlay">
+                ★ ${item.rating}
+            </div>
+        </div>
+        <div class="movie-info">
+            <h3>${item.title}</h3>
+            <div class="details">${item.details}</div>
+        </div>
+    `;
+    return a;
+}
+
+function renderCarousel(carouselId, items){
+    const carousel = document.getElementById(carouselId);
+    carousel.innerHTML = '';
+    const maxVisible = 10; // زيادة عدد البطاقات المعروضة قبل "المزيد"
+    const visible = items.slice(0, maxVisible);
+    visible.forEach(i => carousel.appendChild(createCard(i)));
+
+    if(items.length > maxVisible){
+        const more = document.createElement('div');
+        more.className = 'more-card';
+        more.innerHTML = `المزيد<br><br><svg viewBox="0 0 24 24" width="30" height="30" fill="#E50914"><path d="M12 4v16m-6-6h12"/></svg>`;
+        more.onclick = () => {
+            // إضافة البطاقات المتبقية
+            items.slice(maxVisible).forEach(i => carousel.appendChild(createCard(i)));
+            more.remove(); // إزالة زر "المزيد"
+        };
+        carousel.appendChild(more);
+    }
+}
+
+// ======== وظيفة البحث ========
+const searchInput = document.getElementById('search-input');
+searchInput.oninput = () => {
+    const q = searchInput.value.toLowerCase();
+    
+    // تصفية الأفلام
+    const filteredMovies = MOVIES_DATA.filter(m => m.title.toLowerCase().includes(q) || m.details.toLowerCase().includes(q));
+    renderCarousel('movies-carousel', filteredMovies);
+    
+    // تصفية المسلسلات
+    const filteredSeries = SERIES_DATA.filter(s => s.title.toLowerCase().includes(q) || s.details.toLowerCase().includes(q));
+    renderCarousel('series-carousel', filteredSeries);
+};
+
+// ======== تشغيل أولي ========
+renderCarousel('movies-carousel', MOVIES_DATA);
+renderCarousel('series-carousel', SERIES_DATA);
+showBanner(0);
+</script>
+
+</body>
+</html>
