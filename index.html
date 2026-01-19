@@ -138,10 +138,10 @@
     .carousel::-webkit-scrollbar {display:none;} /* إخفاء شريط التمرير لكروم وسفاري */
 
     .movie-card {
-        min-width: 140px;
-        max-width: 140px;
+        min-width: 108px;
+        max-width: 108px;
         background-color: #141414;
-        border-radius: 8px;
+        border-radius: 0px;
         overflow: hidden;
         flex-shrink: 0;
         text-decoration: none;
@@ -160,7 +160,7 @@
     .image-container {
         position: relative;
         width: 100%;
-        height: 200px;
+        height: 170px;
         overflow: hidden;
     }
 
@@ -196,10 +196,10 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        font-weight: 600;
+        font-weight: 400;
     }
     .movie-info .details {
-        font-size: 10px;
+        font-size: 12px;
         color: #888;
         margin: 2px 0 0 0;
     }
@@ -225,7 +225,7 @@
 
     @media (min-width:600px){
         .movie-card {min-width:180px; max-width:180px;}
-        .image-container {height:250px;}
+        .image-container {height:175px;}
         .banner {height:400px; border-radius: 8px; margin: 0 20px;}
         .section {padding: 15px 20px;}
         .search-bar input {max-width: 600px;}
@@ -249,93 +249,42 @@
 <div class="banner" id="main-banner"></div>
 
 <div class="section" id="latest-movies">
-    <h2> مسلسلات Netflix</h2>
+    <h2>اخر الاضافات</h2>
     <div class="carousel" id="movies-carousel"></div>
 </div>
 
 <div class="section" id="popular-series">
-    <h2>أفلام ننصح بها</h2>
+    <h2>مسلسلات</h2>
     <div class="carousel" id="series-carousel"></div>
 </div>
 
 <script>
 // ======== بيانات ========
 const BANNERS_DATA = [
-        {img: 'https://g.top4top.io/p_36703u9391.jpg',
-    title: 'Green book',
-    link: 'https://vaultygfob.com/s/2013069081057697793'
-},
-
-    {img: 'https://i.top4top.io/p_36709yep31.jpg',
-    title: 'peaky blinders',
-    link: 'https://vaultyjirx.com/s/2013061312837476353'
-},
-    
-    {img: 'https://k.top4top.io/p_3670qkf7g1.jpg',
-    title: 'i am not okay with this',
-    link: 'https://vaultygfob.com/s/2012900616929693698'
-},
-
-        {img: 'https://a.top4top.io/p_3670rx79n1.jpg',
-    title: 'Dust Bunny',
-    link: 'https://vaultygfob.com/s/2012741245184655361'
-},
-
-    {img: 'https://f.top4top.io/p_36692bd2t1.jpg',
-    title: 'Stranger Things',
-    link: 'https://vaultygfob.com/s/2012554659427934210'
+        {img: 'https://k.top4top.io/p_3596ftnyi0.jpg',
+    title: 'حلم اشرف',
+    link: 'https://nexuslnvi.com/s/2013197128368922626'
 },
 ];
 
 let MOVIES_DATA = [
     {
-    title: 'peaky blinders',
-    details: '🇺🇸 اجنبي • 2014 • اكشن',
-    rating: '8.7',
-    img: 'https://h.top4top.io/p_36702g0041.jpg',
-    link: 'https://vaultyjirx.com/s/2013061084398907394'
-},
-{
-    title: 'i am not okay with this',
-    details: '🇺🇸 اجنبي • 2020 • دراما',
-    rating: '7.5',
-    img: 'https://h.top4top.io/p_3670psn471.jpg',
-    link: 'https://vaultygfob.com/s/2012900616929693698'
-},
-          {
-          title: 'Stranger Things',
-          details: '🇺🇸 اجنبي • 2025 • خيال',
-          rating: '8.6',
-          img: 'https://g.top4top.io/p_36693m7ul1.jpg',
-          link: 'https://vaultygfob.com/s/2012556601713627137'
-      },
-    {
-        title: 'WEDNESDAY',
-        details: '🇺🇸 أجنبي • 2022 • رعب',
-        rating: '8.0',
-        img: 'https://g.top4top.io/p_3669nwtlv1.jpg',
-        link: 'https://vaultygfob.com/s/2012075106888728577'
+        title: 'حلم اشرف',
+        details: 'الحلقة 28',
+        rating: '8.2',
+        img: 'https://a.top4top.io/p_36713cvp21.jpg',
+        link: 'https://nexuslnvi.com/s/2013199741084659713'
     },
-    // يمكن إضافة المزيد هنا
 ];
 
 let SERIES_DATA = [
     {
-    title: 'Green book',
-    details: '🇺🇸 اجنبي • 2018 • كوميديا',
-    rating: '8.2',
-    img: 'https://h.top4top.io/p_3670aeyi21.jpg',
-    link: 'https://vaultygfob.com/s/2013068860575719426'
-},
-    
-{
-    title: 'Dust Bunny',
-    details: '🇺🇸 اجنبي • 2025 • اكشن',
-    rating: '6.6',
-    img: 'https://f.top4top.io/p_3670wd0lt1.jpg',
-    link: 'https://vaultygfob.com/s/2012741245184655361'
-},
-    // يمكن إضافة المزيد هنا
+        title: 'حلم اشرف',
+        details: ' تركي • 2025',
+        rating: '8.2',
+        img: 'https://a.top4top.io/p_36713cvp21.jpg',
+        link: 'https://nexusjdes.com/s/2013199671807340545'
+    },
 ];
 
 
