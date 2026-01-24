@@ -3,154 +3,214 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>سكس مشاهير</title>
+<title>سكس مترجم</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent;}
 body{background:#0b0f1a;color:#fff;padding-bottom:90px;}
 
-/* البحث */
 .search-bar{position:sticky;top:0;z-index:10;background:#0b0f1a;padding:12px;}
 .search-bar input{width:100%;padding:12px 16px;border-radius:16px;border:none;outline:none;background:#151a2d;color:#fff;}
 
-/* الكروت */
 #sections-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:12px;}
 .card{background:#000;border-radius:18px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.6);cursor:pointer;}
+
 .video-thumb{position:relative;aspect-ratio:16/9;background-size:cover;background-position:center;}
 .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;font-size:22px;}
 .video-duration{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,.85);font-size:12px;padding:3px 7px;border-radius:6px;}
 
-/* معلومات الفيديو */
 .video-info{padding:12px;background:#0b0f1a;display:flex;gap:10px;}
 .channel-avatar{width:48px;height:48px;border-radius:50%;background-size:cover;background-position:center;flex-shrink:0;}
-.channel-text{flex:1;display:flex;flex-direction:column;justify-content:center;}
 .channel-text h4{font-size:14px;line-height:1.3;margin-bottom:4px;}
 .channel-text span{font-size:12px;opacity:.7;}
 
-/* الوصف */
-.desc{font-size:12px;opacity:.85;margin-top:6px;}
-
-/* زر المزيد */
 .load-more{margin:14px;text-align:center;padding:10px;border:2px solid #e50914;border-radius:16px;color:#e50914;font-weight:bold;cursor:pointer;}
 .load-more:hover{background:#e50914;color:#fff;}
+
+.new-badge{
+ position:absolute;
+ top:8px;
+ right:8px;
+ background:#e50914;
+ color:#fff;
+ font-size:11px;
+ padding:4px 8px;
+ border-radius:8px;
+ font-weight:bold;
+}
 </style>
 </head>
+
 <body>
 
 <div class="search-bar">
-    <input type="text" placeholder="ابحث عن فيديو">
+ <input type="text" placeholder="ابحث عن فيديو">
 </div>
 
 <div id="sections-container"></div>
 <div id="loadMoreBtn" class="load-more">المزيد</div>
 
 <script>
-// بيانات الفيديوهات
+// ===== حساب الوقت (قبل ...) =====
+function timeAgoArabic(dateString){
+ const now = new Date();
+ const date = new Date(dateString);
+ const diff = Math.floor((now - date) / 1000);
+
+ if (diff < 60) return `قبل ${diff} ثانية`;
+ const minutes = Math.floor(diff / 60);
+ if (minutes < 60) return `قبل ${minutes} دقيقة`;
+ const hours = Math.floor(minutes / 60);
+ if (hours < 24) return `قبل ${hours} ساعة`;
+ const days = Math.floor(hours / 24);
+ if (days < 30) return `قبل ${days} يوم`;
+ const months = Math.floor(days / 30);
+ const remDays = days % 30;
+ return remDays > 0 ? `قبل ${months} شهر و ${remDays} يوم` : `قبل ${months} شهر`;
+}
+
+// ===== تحقق هل الفيديو جديد (24 ساعة) =====
+function isNewVideo(dateString){
+ const now = new Date();
+ const videoDate = new Date(dateString);
+ return (now - videoDate) <= (24 * 60 * 60 * 1000);
+}
+
+// ===== البيانات =====
 const items=[
-  {
-  title: "بلدي لطيف stepis وأنا أخيرا استسلمت و مارس الجنس | SecretsFilmed",
-  img: "https://a.top4top.io/p_36754sbwr1.jpg",
-  duration: "13:46",
-  channel: "SecretsFilmed",
-  channelImg: "https://h.top4top.io/p_3675fapc71.jpg",
-  date: new Date().toISOString(),
-  link: "https://nexusjdes.com/s/2014564127426748417"
+ {
+ title: "وقت الكبار - هل يمكنك أن تجعلني أصل إلى النشوة؟ المراهقة البريئة كوكو لوفلوك تسمح لأخيها غير الشقيق بإثبات قدرتها على الوصول إلى النشوة.| Coco Lovelock",
+ img: "https://c.top4top.io/p_3676sj6ou1.jpg",
+ duration: "15:24",
+ channel: "Coco Lovelock",
+ channelImg: "https://k.top4top.io/p_3676avijt1.jpg",
+ date: new Date(new Date().setHours(7, 31, 0, 0)).toISOString(),
+ link: "https://nexuslnvi.com/s/2014919034360979457"
 },
-    {
-    title: "جاءت فتاة Tinder إلى منزلي ولم نضيع دقيقة واحدة | SecretsFilmed",
-    img: "https://l.top4top.io/p_3675l7k4t1.jpg",
-    duration: "12:52",
-    channel: "SecretsFilmed",
-    channelImg: "https://h.top4top.io/p_3675fapc71.jpg",
-    date: new Date().toISOString(),
-    link: "https://nexusjdes.com/s/2014564088629317634"
-  },
   {
-  title: "زوجة الأب طلبت منه التدليك ولم يستطع المقاومة | comatozze",
-  img: "https://k.top4top.io/p_36755o6hk1.jpg",
-  duration: "21:39",
-  channel: "comatozze",
-  channelImg: "https://g.top4top.io/s_3675k9j0z1.jpg",
-  date: new Date().toISOString(),
-  link: "https://nexusjdes.com/s/2014560628383162370"
+  title: "وقت الكبار - تم ضبط المراهقة الصغيرة كوكو لوفلوك وهي تمارس العادة السرية، ثم قام زوج أمها كودي فور وزوجها بممارسة الجنس معها.| Coco Lovelock",
+  img: "https://b.top4top.io/p_3676dnrku1.jpg",
+  duration: "15:52",
+  channel: "Coco Lovelock",
+  channelImg: "https://k.top4top.io/p_3676avijt1.jpg",
+  date: new Date(new Date().setHours(7, 39, 0, 0)).toISOString(),
+  link: "https://nexusjdes.com/s/2014920994103377922"
+ },
+ {
+ title: "هذا الفيديو مخصص لك فقط أخت غير شقيقة صغيرة تركب قضيب أخيها غير الشقيق الضخم | Coco Lovelock",
+ img: "https://d.top4top.io/p_3676vpp1w1.jpg",
+ duration: "10:24",
+ channel: "Coco Lovelock",
+ channelImg: "https://k.top4top.io/p_3676avijt1.jpg",
+ date: new Date(new Date().setHours(7, 28, 0, 0)).toISOString(),
+ link: "https://nexuslnvi.com/s/2014917476688748546"
 },
-    {
-    title: "فتاة تغوي رجل الخدمة في الفندق ولم يكن لديه فرصة | comatozze",
-    img: "https://k.top4top.io/p_36751c4281.jpg",
-    duration: "15:35",
-    channel: "comatozze",
-    channelImg: "https://g.top4top.io/s_3675k9j0z1.jpg",
-    date: new Date().toISOString(),
-    link: "https://nexusjdes.com/s/2014557868858163201"
+ {
+ title: "هي شقراء، وزنها 85 رطلاً، وتحب مص القضيب | Coco Lovelock",
+ img: "https://e.top4top.io/p_3676zc8bt1.jpg",
+ duration: "8:57",
+ channel: "Coco Lovelock",
+ channelImg: "https://k.top4top.io/p_3676avijt1.jpg",
+ date: new Date(new Date().setHours(7,16,0,0)).toISOString(),
+ link: "https://nexusjdes.com/s/2014915058588602370"
 },
 {
-    title: "الغيبوبة أختي هل أنت مجنونة تريد مني أن ألعقها | comatozze",
-    img: "https://l.top4top.io/p_3675qz9rl1.jpg",
-    duration: "20:35",
-    channel: "comatozze",
-    channelImg: "https://g.top4top.io/s_3675k9j0z1.jpg",
-    date: new Date().toISOString(),
-    link: "https://nexusjdes.com/s/2014557921056288770"
+ title:"بلدي لطيف stepis وأنا أخيرا استسلمت و مارس الجنس | SecretsFilmed",
+ img:"https://a.top4top.io/p_36754sbwr1.jpg",
+ duration:"13:46",
+ channel:"SecretsFilmed",
+ channelImg:"https://h.top4top.io/p_3675fapc71.jpg",
+ date: new Date(new Date().setHours(6,30,0,0)).toISOString(),
+ link:"https://nexusjdes.com/s/2014564127426748417"
 },
 {
- title:"الغيبوبة يا أختي كوني هادئة سوف يسمعنا الأهل | comatozze",
- img:"https://j.top4top.io/p_3675q9rrz1.jpg",
- duration:"14:58",
+ title:"جاءت فتاة Tinder إلى منزلي ولم نضيع دقيقة واحدة | SecretsFilmed",
+ img:"https://l.top4top.io/p_3675l7k4t1.jpg",
+ duration:"12:52",
+ channel:"SecretsFilmed",
+ channelImg:"https://h.top4top.io/p_3675fapc71.jpg",
+ date: new Date(new Date().setHours(6,30,0,0)).toISOString(),
+ link:"https://nexusjdes.com/s/2014564088629317634"
+},
+{
+ title:"زوجة الأب طلبت منه التدليك ولم يستطع المقاومة | comatozze",
+ img:"https://k.top4top.io/p_36755o6hk1.jpg",
+ duration:"21:39",
  channel:"comatozze",
  channelImg:"https://g.top4top.io/s_3675k9j0z1.jpg",
- date: new Date().toISOString(),
- link:"https://nexusjdes.com/s/2014541147602579458"
+ date: new Date(new Date().setHours(6,30,0,0)).toISOString(),
+ link:"https://nexusjdes.com/s/2014560628383162370"
+},
+{
+ title:"فتاة تغوي رجل الخدمة في الفندق ولم يكن لديه فرصة | comatozze",
+ img:"https://k.top4top.io/p_36751c4281.jpg",
+ duration:"15:35",
+ channel:"comatozze",
+ channelImg:"https://g.top4top.io/s_3675k9j0z1.jpg",
+ date: new Date(new Date().setHours(6,30,0,0)).toISOString(),
+ link:"https://nexusjdes.com/s/2014557868858163201"
+},
+{
+ title:"الغيبوبة أختي هل أنت مجنونة تريد مني أن ألعقها | comatozze",
+ img:"https://l.top4top.io/p_3675qz9rl1.jpg",
+ duration:"20:35",
+ channel:"comatozze",
+ channelImg:"https://g.top4top.io/s_3675k9j0z1.jpg",
+ date: new Date(new Date().setHours(6,30,0,0)).toISOString(),
+ link:"https://nexusjdes.com/s/2014557921056288770"
 }
 ];
 
-// ===== متغيرات =====
-let currentIndex=0;
+// ===== تحميل الكروت =====
+let index=0;
 const perLoad=20;
 const container=document.getElementById("sections-container");
 const loadMoreBtn=document.getElementById("loadMoreBtn");
 
-// ===== إنشاء كرت فيديو مع كلمة "مجاني" =====
 function createCard(item){
  const card=document.createElement("div");
  card.className="card";
 
+ const newBadge = isNewVideo(item.date)
+  ? `<div class="new-badge">تم الاضافة اليوم</div>`
+  : ``;
+
  card.innerHTML=`
-  <div class="video-thumb" style="background-image:url('${item.img}')">
-    <div class="play-btn">▶</div>
-    <div class="video-duration">${item.duration}</div>
-  </div>
-  <div class="video-info">
-    <div class="channel-avatar" style="background-image:url('${item.channelImg}')"></div>
-    <div class="channel-text">
-      <h4>${item.title}</h4>
-      <span class="time-span">${item.channel} • <strong style="color:#e50914;">مجاني</strong></span>
-    </div>
-  </div>
+ <div class="video-thumb" style="background-image:url('${item.img}')">
+   ${newBadge}
+   <div class="play-btn">▶</div>
+   <div class="video-duration">${item.duration}</div>
+ </div>
+ <div class="video-info">
+   <div class="channel-avatar" style="background-image:url('${item.channelImg}')"></div>
+   <div class="channel-text">
+     <h4>${item.title}</h4>
+     <span>${item.channel} • <strong style="color:#e50914;">${timeAgoArabic(item.date)}</strong></span>
+   </div>
+ </div>
  `;
 
  card.onclick=()=>window.open(item.link,"_blank");
  container.appendChild(card);
 }
 
-// ===== تحميل الفيديوهات =====
 function loadItems(){
  let count=0;
- while(currentIndex<items.length && count<perLoad){
-  createCard(items[currentIndex]);
-  currentIndex++;
-  count++;
+ while(index<items.length && count<perLoad){
+  createCard(items[index]);
+  index++; count++;
  }
- loadMoreBtn.style.display=currentIndex>=items.length?"none":"block";
+ loadMoreBtn.style.display=index>=items.length?"none":"block";
 }
 
-// ===== البحث =====
 document.querySelector(".search-bar input").oninput=e=>{
  const q=e.target.value.toLowerCase();
  container.innerHTML="";
  items.filter(i=>i.title.toLowerCase().includes(q)).forEach(createCard);
 };
 
-// ===== أحداث =====
 loadMoreBtn.onclick=loadItems;
 loadItems();
 </script>
