@@ -1,250 +1,314 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>سكس مشاهير</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>المنصة الرسمية | ميرا النوري</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --main-accent: #ff0050; 
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --dark-bg: #08080a;
+      --card-radius: 18px;
+      --text-muted: #808085;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent;}
-body{background:#0b0f1a;color:#fff;padding-bottom:90px;}
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      background-color: var(--dark-bg);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: radial-gradient(circle at 50% -20%, #2a0f18 0%, #08080a 60%);
+    }
 
-.search-bar{position:sticky;top:0;z-index:10;background:#0b0f1a;padding:12px;}
-.search-bar input{width:100%;padding:12px 16px;border-radius:16px;border:none;outline:none;background:#151a2d;color:#fff;}
+    /* خلفية النقاط الاحترافية */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1.5px, transparent 1.5px);
+      background-size: 25px 25px;
+      z-index: -1;
+      pointer-events: none;
+    }
 
-#sections-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:12px;}
-.card{background:#000;border-radius:18px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.6);cursor:pointer;}
+    header {
+      width: 100%;
+      padding: 25px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 500px;
+    }
 
-.video-thumb{position:relative;aspect-ratio:16/9;background-size:cover;background-position:center;}
-.play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;font-size:22px;}
-.video-duration{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,.85);font-size:12px;padding:3px 7px;border-radius:6px;}
+    .logo {
+      font-weight: 800; font-size: 19px; letter-spacing: 1px;
+      background: linear-gradient(to left, #fff, var(--main-accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
 
-.video-info{padding:12px;background:#0b0f1a;display:flex;gap:10px;}
-.channel-avatar{width:48px;height:48px;border-radius:50%;background-size:cover;background-position:center;flex-shrink:0;}
-.channel-text h4{font-size:14px;line-height:1.3;margin-bottom:4px;}
-.channel-text span{font-size:12px;opacity:.7;}
+    .premium-badge {
+      font-size: 10px; font-weight: 700; letter-spacing: 1px;
+      padding: 4px 12px; border-radius: 50px;
+      background: linear-gradient(45deg, rgba(255,0,80,0.1), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255,0,80,0.3); color: var(--main-accent);
+      box-shadow: 0 0 15px rgba(255, 0, 80, 0.1);
+    }
 
-.load-more{margin:14px;text-align:center;padding:10px;border:2px solid #e50914;border-radius:16px;color:#e50914;font-weight:bold;cursor:pointer;}
-.load-more:hover{background:#e50914;color:#fff;}
+    /* صندوق البحث */
+    .search-container {
+      width: 90%; max-width: 420px; position: relative; margin-bottom: 25px;
+    }
 
-.new-badge{
- position:absolute;
- top:8px;
- right:8px;
- background:#e50914;
- color:#fff;
- font-size:11px;
- padding:4px 8px;
- border-radius:8px;
- font-weight:bold;
-}
-</style>
+    #searchInput {
+      width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+      padding: 14px 45px 14px 20px; border-radius: 12px; color: white; font-size: 14px; transition: 0.3s;
+    }
+
+    #searchInput:focus { outline: none; border-color: var(--main-accent); background: rgba(255,255,255,0.06); }
+
+    .search-container i { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #444; }
+
+    /* حاوية الفيديوهات */
+    #videoWrapper {
+      width: 100%; max-width: 450px; padding: 0 15px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+
+    .video-card {
+      background: rgba(255, 255, 255, 0.02); border-radius: var(--card-radius);
+      border: 1px solid rgba(255,255,255,0.04); overflow: hidden;
+      animation: fadeInUp 0.5s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .thumb-area { position: relative; cursor: pointer; overflow: hidden; }
+    .thumb-area img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; transition: 0.5s; }
+    .video-card:hover .thumb-area img { transform: scale(1.05); }
+
+    .play-overlay {
+      position: absolute; inset: 0; background: rgba(0,0,0,0.2);
+      display: flex; justify-content: center; align-items: center;
+    }
+
+    .play-btn {
+      width: 55px; height: 55px; background: var(--main-accent); border-radius: 50%;
+      display: flex; justify-content: center; align-items: center; font-size: 18px;
+      box-shadow: 0 8px 20px rgba(255, 0, 80, 0.4);
+    }
+
+    /* قسم التفاصيل */
+    .info-area { padding: 12px 16px 18px 16px; }
+
+    .meta-line { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+
+    .badges-group { display: flex; gap: 6px; }
+
+    .tag-ex { font-size: 10px; font-weight: 800; background: var(--main-accent); padding: 2px 8px; border-radius: 4px; }
+
+    .tag-hd { font-size: 10px; font-weight: 600; color: #666; border: 1px solid #333; padding: 1px 6px; border-radius: 4px; }
+
+    .time-left { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; direction: ltr; }
+
+    .time-left i { font-size: 10px; color: var(--main-accent); }
+
+    .video-title { font-size: 17px; font-weight: 700; margin: 0; color: #efefef; line-height: 1.4; }
+
+    /* نظام ترقيم الصفحات */
+    .pagination {
+      margin: 40px 0; display: flex; gap: 8px; justify-content: center; align-items: center;
+    }
+
+    .page-node {
+      min-width: 40px; height: 40px; border-radius: 10px; 
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+      color: #888; cursor: pointer; font-weight: 700; transition: 0.3s;
+      display: flex; justify-content: center; align-items: center;
+    }
+
+    .page-node:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+    .page-node.active {
+      background: var(--main-accent); border-color: var(--main-accent); color: #fff;
+      box-shadow: 0 5px 15px rgba(255, 0, 80, 0.3);
+    }
+
+    #noResults { display: none; text-align: center; padding: 80px 20px; color: var(--text-muted); }
+  </style>
 </head>
-
 <body>
 
-<div class="search-bar">
- <input type="text" placeholder="ابحث عن فيديو">
+<header>
+  <div class="logo">Sex 1 iraq</div>
+  <div class="premium-badge">الاول على العراق</div>
+</header>
+
+<div class="search-container">
+  <i class="fas fa-search"></i>
+  <input type="text" id="searchInput" placeholder="البحث" />
 </div>
 
-<div id="sections-container"></div>
-<div id="loadMoreBtn" class="load-more">المزيد</div>
+<main id="videoWrapper"></main>
+
+<nav class="pagination" id="paginationControls"></nav>
+
+<div id="noResults">
+  <i class="fas fa-folder-open" style="font-size: 40px; margin-bottom: 15px; opacity: 0.2;"></i>
+  <p>لم نجد أي فيديو يطابق بحثك</p>
+</div>
 
 <script>
-// ===== حساب الوقت (قبل ...) =====
-function timeAgoArabic(dateString){
- const now = new Date();
- const date = new Date(dateString);
- const diff = Math.floor((now - date) / 1000);
+  /**
+   * قاعدة بيانات الفيديوهات
+   * أضف أي فيديو جديد هنا في الأعلى وسيظهر تلقائياً
+   */
+  const DATABASE = [
+    { id: 06, title: "طالبة اعداديه تفرك - نودز", date: "2026-03-08T04:15:00+03:00", img: "https://sex1iraqi.site/wp-content/uploads/2026/03/1.jpg", link: "https://sex1iraqi.site/%d8%b7%d8%a7%d9%84%d8%a8%d8%a9-%d8%a7%d8%b9%d8%af%d8%a7%d8%af%d9%8a%d9%87-%d8%aa%d9%81%d8%b1%d9%83/" }
+  ];
 
- if (diff < 60) return `قبل ${diff} ثانية`;
- const minutes = Math.floor(diff / 60);
- if (minutes < 60) return `قبل ${minutes} دقيقة`;
- const hours = Math.floor(minutes / 60);
- if (hours < 24) return `قبل ${hours} ساعة`;
- const days = Math.floor(hours / 24);
- if (days < 30) return `قبل ${days} يوم`;
- const months = Math.floor(days / 30);
- const remDays = days % 30;
- return remDays > 0 ? `قبل ${months} شهر و ${remDays} يوم` : `قبل ${months} شهر`;
-}
+  let currentPage = 1;
+  const videosPerPage = 30;
+  let currentData = [...DATABASE];
 
-// ===== تحقق هل الفيديو جديد (24 ساعة) =====
-function isNewVideo(dateString){
- const now = new Date();
- const videoDate = new Date(dateString);
- return (now - videoDate) <= (24 * 60 * 60 * 1000);
-}
+  // دالة تحويل التاريخ إلى وقت نسبي احترافي
+  function timeAgo(dateString) {
+    const now = new Date();
+    const past = new Date(dateString);
+    const diff = now - past;
 
-// ===== البيانات =====
-const items=[
-  {title: "حصلت عليه - سكس مترجم, طالب معلمة | Natasha nice ناتاشا نايس",
- img: "https://a.top4top.io/p_3676d85pb1.jpg",
- duration: "40:07",
- channel: "Natasha nice",
- channelImg: "https://i.top4top.io/p_3676ihi3f1.jpg",
- date: new Date(new Date().setHours(9, 08, 0, 0)).toISOString(),
- link: "https://nexusjdes.com/s/2014939669069979649"},
- {title: "موهبة نيك الطيز - سكس قصص مترجم | Natasha nice ناتاشا نايس",
- img: "https://d.top4top.io/p_3676p4ic81.jpg",
- duration: "45:07",
- channel: "Natasha nice",
- channelImg: "https://i.top4top.io/p_3676ihi3f1.jpg",
- date: new Date(new Date().setHours(9, 08, 0, 0)).toISOString(),
- link: "https://nexuslnvi.com/s/2014935475739054082"},
- {
- title: "تمارين يوغا الطيز - سكس قصص مترجم | Natasha nice ناتاشا نايس",
- img: "https://b.top4top.io/p_3676aevfh1.jpg",
- duration: "40:32",
- channel: "Natasha nice",
- channelImg: "https://i.top4top.io/p_3676ihi3f1.jpg",
- date: new Date(new Date().setHours(9, 08, 0, 0)).toISOString(),
- link: "https://nexuslnvi.com/s/2014932621439684610"
-},
- {
- title: "زوجها يفرح لخيانتها -    مترجم | Natasha nice ناتاشا نايس",
- img: "https://d.top4top.io/p_3676zxv871.jpg",
- duration: "26:03",
- channel: "Natasha nice",
- channelImg: "https://i.top4top.io/p_3676ihi3f1.jpg",
- date: new Date(new Date().setHours(9, 08, 0, 0)).toISOString(),
- link: "https://nexusjdes.com/s/2014928381925277697"
-},
- {
- title: "وقت الكبار - هل يمكنك أن تجعلني أصل إلى النشوة؟ المراهقة البريئة كوكو لوفلوك تسمح لأخيها غير الشقيق بإثبات قدرتها على الوصول إلى النشوة.| Coco Lovelock",
- img: "https://c.top4top.io/p_3676sj6ou1.jpg",
- duration: "15:24",
- channel: "Coco Lovelock",
- channelImg: "https://k.top4top.io/p_3676avijt1.jpg",
- date: new Date(new Date().setHours(7, 41, 0, 0)).toISOString(),
- link: "https://nexuslnvi.com/s/2014919034360979457"
-},
-  {
-  title: "وقت الكبار - تم ضبط المراهقة الصغيرة كوكو لوفلوك وهي تمارس العادة السرية، ثم قام زوج أمها كودي فور وزوجها بممارسة الجنس معها.| Coco Lovelock",
-  img: "https://b.top4top.io/p_3676dnrku1.jpg",
-  duration: "15:52",
-  channel: "Coco Lovelock",
-  channelImg: "https://k.top4top.io/p_3676avijt1.jpg",
-  date: new Date(new Date().setHours(7, 31, 0, 0)).toISOString(),
-  link: "https://nexusjdes.com/s/2014920994103377922"
- },
- {
- title: "هذا الفيديو مخصص لك فقط أخت غير شقيقة صغيرة تركب قضيب أخيها غير الشقيق الضخم | Coco Lovelock",
- img: "https://d.top4top.io/p_3676vpp1w1.jpg",
- duration: "10:24",
- channel: "Coco Lovelock",
- channelImg: "https://k.top4top.io/p_3676avijt1.jpg",
- date: new Date(new Date().setHours(7, 28, 0, 0)).toISOString(),
- link: "https://nexuslnvi.com/s/2014917476688748546"
-},
- {
- title: "هي شقراء، وزنها 85 رطلاً، وتحب مص القضيب | Coco Lovelock",
- img: "https://e.top4top.io/p_3676zc8bt1.jpg",
- duration: "8:57",
- channel: "Coco Lovelock",
- channelImg: "https://k.top4top.io/p_3676avijt1.jpg",
- date: new Date(new Date().setHours(7,16,0,0)).toISOString(),
- link: "https://nexusjdes.com/s/2014915058588602370"
-},
-{
- title:"بلدي لطيف stepis وأنا أخيرا استسلمت و مارس الجنس | SecretsFilmed",
- img:"https://a.top4top.io/p_36754sbwr1.jpg",
- duration:"13:46",
- channel:"SecretsFilmed",
- channelImg:"https://h.top4top.io/p_3675fapc71.jpg",
- date: new Date(new Date().setHours(6,30,0,0)).toISOString(),
- link:"https://nexusjdes.com/s/2014564127426748417"
-},
-{
- title:"جاءت فتاة Tinder إلى منزلي ولم نضيع دقيقة واحدة | SecretsFilmed",
- img:"https://l.top4top.io/p_3675l7k4t1.jpg",
- duration:"12:52",
- channel:"SecretsFilmed",
- channelImg:"https://h.top4top.io/p_3675fapc71.jpg",
- date: new Date(new Date().setHours(6,30,0,0)).toISOString(),
- link:"https://nexusjdes.com/s/2014564088629317634"
-},
-{
- title:"زوجة الأب طلبت منه التدليك ولم يستطع المقاومة | comatozze",
- img:"https://k.top4top.io/p_36755o6hk1.jpg",
- duration:"21:39",
- channel:"comatozze",
- channelImg:"https://g.top4top.io/s_3675k9j0z1.jpg",
- date: new Date(new Date().setHours(6,30,0,0)).toISOString(),
- link:"https://nexusjdes.com/s/2014560628383162370"
-},
-{
- title:"فتاة تغوي رجل الخدمة في الفندق ولم يكن لديه فرصة | comatozze",
- img:"https://k.top4top.io/p_36751c4281.jpg",
- duration:"15:35",
- channel:"comatozze",
- channelImg:"https://g.top4top.io/s_3675k9j0z1.jpg",
- date: new Date(new Date().setHours(6,30,0,0)).toISOString(),
- link:"https://nexusjdes.com/s/2014557868858163201"
-},
-{
- title:"الغيبوبة أختي هل أنت مجنونة تريد مني أن ألعقها | comatozze",
- img:"https://l.top4top.io/p_3675qz9rl1.jpg",
- duration:"20:35",
- channel:"comatozze",
- channelImg:"https://g.top4top.io/s_3675k9j0z1.jpg",
- date: new Date(new Date().setHours(6,30,0,0)).toISOString(),
- link:"https://nexusjdes.com/s/2014557921056288770"
-}
-];
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const months = Math.floor(days / 30);
+    const years = Math.floor(days / 365);
 
-// ===== تحميل الكروت =====
-let index=0;
-const perLoad=20;
-const container=document.getElementById("sections-container");
-const loadMoreBtn=document.getElementById("loadMoreBtn");
+    if (diff < 0) return "قريباً";
+    if (seconds < 60) return `منذ ثوانٍ`;
+    if (minutes < 60) {
+      if (minutes === 1) return "منذ دقيقة";
+      if (minutes === 2) return "منذ دقيقتين";
+      return `منذ ${minutes} دقيقة`;
+    }
+    if (hours < 24) {
+      if (hours === 1) return "منذ ساعة";
+      if (hours === 2) return "منذ ساعتين";
+      return `منذ ${hours} ساعة`;
+    }
+    if (days < 30) {
+      if (days === 1) return "منذ يوم";
+      if (days === 2) return "منذ يومين";
+      if (days <= 10) return `منذ ${days} أيام`;
+      return `منذ ${days} يوم`;
+    }
+    if (months < 12) {
+      if (months === 1) return "منذ شهر";
+      if (months === 2) return "منذ شهرين";
+      return `منذ ${months} أشهر`;
+    }
+    return years === 1 ? "منذ سنة" : `منذ ${years} سنة`;
+  }
 
-function createCard(item){
- const card=document.createElement("div");
- card.className="card";
+  // دالة بناء وعرض الفيديوهات
+  function displayVideos() {
+    const wrapper = document.getElementById('videoWrapper');
+    const noResults = document.getElementById('noResults');
+    wrapper.innerHTML = "";
 
- const newBadge = isNewVideo(item.date)
-  ? `<div class="new-badge">تم الاضافة اليوم</div>`
-  : ``;
+    if (currentData.length === 0) {
+      noResults.style.display = "block";
+      document.getElementById('paginationControls').innerHTML = "";
+      return;
+    }
+    noResults.style.display = "none";
 
- card.innerHTML=`
- <div class="video-thumb" style="background-image:url('${item.img}')">
-   ${newBadge}
-   <div class="play-btn">▶</div>
-   <div class="video-duration">${item.duration}</div>
- </div>
- <div class="video-info">
-   <div class="channel-avatar" style="background-image:url('${item.channelImg}')"></div>
-   <div class="channel-text">
-     <h4>${item.title}</h4>
-     <span>${item.channel} • <strong style="color:#e50914;">${timeAgoArabic(item.date)}</strong></span>
-   </div>
- </div>
- `;
+    // حساب بداية ونهاية الصفحة
+    const start = (currentPage - 1) * videosPerPage;
+    const end = start + videosPerPage;
+    const paginatedItems = currentData.slice(start, end);
 
- card.onclick=()=>window.open(item.link,"_blank");
- container.appendChild(card);
-}
+    paginatedItems.forEach(video => {
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.innerHTML = `
+        <div class="thumb-area" onclick="window.open('${video.link}')">
+          <img src="${video.img}" alt="Thumbnail">
+          <div class="play-overlay">
+            <div class="play-btn"><i class="fas fa-play"></i></div>
+          </div>
+        </div>
+        <div class="info-area">
+          <div class="meta-line">
+            <div class="badges-group">
+              <span class="tag-ex">حصري</span>
+              <span class="tag-hd">HD</span>
+            </div>
+            <div class="time-left">
+              <span>${timeAgo(video.date)}</span>
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+          </div>
+          <h2 class="video-title">${video.title}</h2>
+        </div>
+      `;
+      wrapper.appendChild(card);
+    });
 
-function loadItems(){
- let count=0;
- while(index<items.length && count<perLoad){
-  createCard(items[index]);
-  index++; count++;
- }
- loadMoreBtn.style.display=index>=items.length?"none":"block";
-}
+    setupPagination();
+  }
 
-document.querySelector(".search-bar input").oninput=e=>{
- const q=e.target.value.toLowerCase();
- container.innerHTML="";
- items.filter(i=>i.title.toLowerCase().includes(q)).forEach(createCard);
-};
+  // دالة بناء أزرار الترقيم
+  function setupPagination() {
+    const pageContainer = document.getElementById('paginationControls');
+    pageContainer.innerHTML = "";
+    
+    const pageCount = Math.ceil(currentData.length / videosPerPage);
+    if (pageCount <= 1) return;
 
-loadMoreBtn.onclick=loadItems;
-loadItems();
+    for (let i = 1; i <= pageCount; i++) {
+      const btn = document.createElement('div');
+      btn.className = `page-node ${i === currentPage ? 'active' : ''}`;
+      btn.innerText = i;
+      btn.onclick = () => {
+        currentPage = i;
+        displayVideos();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+      pageContainer.appendChild(btn);
+    }
+  }
+
+  // محرك البحث الذكي
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase().trim();
+    currentData = DATABASE.filter(v => v.title.toLowerCase().includes(term));
+    currentPage = 1; // العودة للصفحة الأولى عند البحث
+    displayVideos();
+  });
+
+  // تشغيل المنصة عند التحميل
+  displayVideos();
+  
+  // تحديث التوقيت كل دقيقة ليبقى حياً
+  setInterval(displayVideos, 60000);
 </script>
 
 </body>
